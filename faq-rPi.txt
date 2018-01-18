@@ -1,0 +1,76 @@
+Rpi udostepnianie dysku(server NAS)
+http://www.elektroda.pl/rtvforum/topic3182249.html
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo fdisk -l
+
+sudo mkdir /media/USBHD
+sudo mount -t auto /dev/sda1 /media/USBHD
+
+ls /media/USBHD
+#montowanie dysku, zeby nie robic tego za kazdym razem, dodajemy wpis do fstab
+sudo nano /etc/fstab
+/dev/sda1 /media/USBHD auto defaults 0 2
+
+sudo apt-get install samba
+sudo apt-get install samba-common-bin
+
+sudo nano /etc/samba/smb.conf
+odkomentowujemy (usuwamy znak # na początku) linijkę "security = user " w sekcji Authentication, a na końcu pliku dodajemy:
+Code:
+[USBHD]
+comment=Dysk udostepniony
+path = /media/USBHD
+valid users = @users
+force group = users
+create mask = 0777
+directory mask = 0777
+read only = no
+writeable = yes
+browseable = yes
+public = yes
+
+ustalenie hasła do logowania się do dysku sieciowego dla użytkownika pi
+sudo smbpasswd -a pi
+
+zresetowanie usługi Samba
+sudo service samba restart
+
+THE END
+
+
+Uwagi do rPI
+nie polecam specjalnie kupować RPi dla serwera. Znacznie lepiej sprawdzi się Banana Pi, które jest w tej samej cenie, posiada złącze SATA a LAN nie jest po hubie wraz z USBkami a osobno wyprowadzoby z procesora (inny typ procka) przez co prędkość jest 1G zamiast 5-10M
+
+KONFIGURACJA sieci w RPI
+dla sieci z ukrytym SSID
+
+	1. wstawic do sudo nano /etc/network/interfaces zawartosc:
+
+auto lo
+iface lo inet loopback
+iface eth0 inet dhcp
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+   wpa-scan-ssid 1
+   wpa-ap-scan 1
+   wpa-key-mgmt WPA-PSK
+   wpa-proto RSN WPA
+   wpa-pairwise CCMP TKIP
+   wpa-group CCMP TKIP
+   wpa-ssid "My Secret SSID"
+   wpa-psk "My SSID PSK"
+iface default inet dhcp
+
+dla sieci z widocznym SSID
+wstawic do sudo nano /etc/network/interfaces zawartosc:
+auto lo
+iface lo inet loopback
+iface eth0 inet dhcp
+allow-hotplug wlan0
+auto wlan0
+iface wlan0 inet dhcp
+        wpa-ssid "ssid"
+        wpa-psk "password"
