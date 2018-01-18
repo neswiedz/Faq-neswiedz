@@ -1,0 +1,12 @@
+LINUX
+df -Bm                 - ilosc miejsca na dysku
+/dev/mmcblk0p1     - karta SD 30% zajeta
+dmesg | grep tty     - wyszykuje dostepne porty COM/FTDI
+sudo apt-get clean     - czysci troche dysk
+sudo fdisk -l           (-małe L) pokazuje dyski + informacje
+cat /etc/fstab         - info gdzie zamontowane dyski
+dpkg-query -l    lista zainstlowanych pakietow (duzo zwraca)
+| less - wyswietla tyle co miesci sie na ekranie a potem trzeba enter dla kazdje kolejnej linii. q wychodzi do lini polecen
+
+WINDOWS
+sprawdzenie sumy MD5 w windows: certutil -hashfile 2016-03-12-jessie-minibian.tar.gz MD5
