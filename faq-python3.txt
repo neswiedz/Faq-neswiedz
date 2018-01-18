@@ -1,0 +1,32 @@
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+https://github.com/phra/termometro
+
+
+#--------------------------------------
+
+#KNOW-HOW: wyswietlanie daty i godziny
+#--------------------------------------
+#temp_dzis = datetime.datetime.today()
+#print("data: {}".format(temp_dzis.strftime("%d-%m-%Y")))
+#-
+#print("test {}".format(datetime.datetime.today().year))
+#-
+#teraz = datetime.datetime.today()
+#rok = teraz.year
+#godzina = teraz.hour
+#minuty = teraz.minute
+#--------------------------------------
+
+
+In 3.2 you could do:
+
+data = bytes.fromhex('01AF23')
+s.send(data)
+Data would then be equal to:
+
+b'\x01\xAF\x23'
+In 2.7 the same could be accomplished with:
+
+data = '01AF23'.decode('hex')
